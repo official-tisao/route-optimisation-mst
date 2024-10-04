@@ -40,3 +40,6 @@ def extract_road_segment_and_intersection_to_csv():
   print(intersections.head())
 
 
+extract_road_segment_and_intersection_to_csv()
+
+
