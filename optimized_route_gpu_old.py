@@ -17,3 +17,10 @@ class UnionFindGPU:
     self.rank = cp.zeros(num_nodes, dtype=cp.int32)
 
 
+  # @cp.fuse()
+  def find(self, x):
+    if self.parent[x] != x:
+      self.parent[x] = self.find(self.parent[x])
+    return self.parent[x]
+
+
