@@ -43,3 +43,7 @@ def extract_road_segment_and_intersection_to_csv():
 extract_road_segment_and_intersection_to_csv()
 
 
+for idx, row in intersections.iterrows():
+  G.add_node(idx, pos=(row['longitude'], row['latitude']))
+
+
