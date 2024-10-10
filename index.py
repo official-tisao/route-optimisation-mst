@@ -47,3 +47,8 @@ for idx, row in intersections.iterrows():
   G.add_node(idx, pos=(row['longitude'], row['latitude']))
 
 
+# # Check for NaN values
+# if intersections[['latitude', 'longitude']].isnull().values.any():
+#   raise ValueError("Latitude or Longitude contains NaN values. Please clean the data.")
+
+
