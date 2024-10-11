@@ -52,3 +52,10 @@ for idx, row in intersections.iterrows():
 #   raise ValueError("Latitude or Longitude contains NaN values. Please clean the data.")
 
 
+# # Check for out-of-range latitude/longitude
+# invalid_lat = intersections[(intersections['latitude'] < -90) | (intersections['latitude'] > 90)]
+# invalid_lon = intersections[(intersections['longitude'] < -180) | (intersections['longitude'] > 180)]
+# if not invalid_lat.empty or not invalid_lon.empty:
+#   raise ValueError(f"Invalid latitude/longitude values detected:\n{invalid_lat}\n{invalid_lon}")
+
+
