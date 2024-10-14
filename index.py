@@ -59,3 +59,7 @@ for idx, row in intersections.iterrows():
 #   raise ValueError(f"Invalid latitude/longitude values detected:\n{invalid_lat}\n{invalid_lon}")
 
 
+# Extract coordinates as a list of tuples
+coords = list(zip(intersections['latitude'], intersections['longitude']))
+
+
