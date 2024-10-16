@@ -63,3 +63,9 @@ for idx, row in intersections.iterrows():
 coords = list(zip(intersections['latitude'], intersections['longitude']))
 
 
+# distances = squareform(pdist(coords, lambda u, v: geodesic(u, v).meters))
+# Calculate the pairwise distances
+# Swap the order to (latitude, longitude) inside pdist()
+distances = squareform(pdist(coords, lambda u, v: geodesic((u[0], u[1]), (v[0], v[1])).meters))
+
+
