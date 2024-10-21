@@ -63,3 +63,13 @@ def kruskal_mst_gpu(edges, nodes):
   return mst
 
 
+def boruvka_mst_gpu(graph, edges):
+  """
+  Fully GPU-optimized Borůvka’s MST using CuPy arrays.
+  """
+  nodes = cp.array(list(graph.keys()), dtype=cp.int32)
+  components = cp.arange(len(nodes), dtype=cp.int32)
+  num_components = len(nodes)
+  mst = []
+
+
