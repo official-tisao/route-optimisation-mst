@@ -72,3 +72,8 @@ distances = squareform(pdist(coords, lambda u, v: geodesic((u[0], u[1]), (v[0], 
 print(distances)
 
 
+for i in range(len(distances)):
+  for j in range(i + 1, len(distances)):
+    G.add_edge(i, j, weight=distances[i][j])
+
+
