@@ -77,3 +77,6 @@ for i in range(len(distances)):
     G.add_edge(i, j, weight=distances[i][j])
 
 
+# sys.exit(0);
+
+
