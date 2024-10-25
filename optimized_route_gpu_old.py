@@ -87,3 +87,12 @@ def boruvka_mst_gpu(graph, edges):
           cheapest[root_v] = (u, v, weight)
 
 
+    for u, v, weight in cheapest:
+      root_u = components[u]
+      root_v = components[v]
+      if root_u != root_v:
+        mst.append((u, v, weight))
+        components[components == root_v] = root_u  # Merge components
+        num_components -= 1
+
+
