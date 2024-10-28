@@ -96,3 +96,6 @@ def boruvka_mst_gpu(graph, edges):
         num_components -= 1
 
 
+  return mst
+
+
