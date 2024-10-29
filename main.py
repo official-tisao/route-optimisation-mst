@@ -22,3 +22,10 @@ else:
                                      # , load_data, build_graph
 
 
+def main():
+  road_segments_file = "./road_segment.csv"
+  intersections_file = "./intersection.csv"
+  road_segments, intersections = load_data(road_segments_file, intersections_file)
+  # graph, edges = build_graph(road_segments)
+
+
