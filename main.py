@@ -36,3 +36,8 @@ def main():
   # Build graph with time-based weights
 
 
+  # Build graph with time-based weights
+  graph, edges, node_mapping = build_graph(road_segments)
+  nodes = set(graph.keys())
+
+
