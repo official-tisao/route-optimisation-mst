@@ -41,3 +41,10 @@ def main():
   nodes = set(graph.keys())
 
 
+  # Map start and end nodes
+  start_asset_id = node_mapping.get(start_asset_id, -1)
+  end_asset_id = node_mapping.get(end_asset_id, -1)
+  if start_asset_id == -1 or end_asset_id == -1:
+    raise ValueError("Invalid start or end asset IDs after mapping")
+
+
