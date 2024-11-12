@@ -48,3 +48,10 @@ def main():
     raise ValueError("Invalid start or end asset IDs after mapping")
 
 
+  # Chinese Postman Problem
+  cpp_route, cpp_total_time = cpp(road_segments)
+  print("CPP Route:", cpp_route)
+  print("Total Time (seconds):", cpp_total_time)
+  save_to_csv([(u, v, G[u][v]["weight"]) for u, v in cpp_route], "./result/cpp_route.csv")
+
+
