@@ -124,3 +124,9 @@ def build_graph(road_segments):
   node_mapping = {node: idx for idx, node in enumerate(unique_nodes)}
 
 
+  for _, row in road_segments.iterrows():
+    from_node = node_mapping[row["FROMNODE"]]
+    to_node = node_mapping[row["TONODE"]]
+    weight = row["Shape_Length"]
+
+
