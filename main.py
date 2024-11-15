@@ -62,3 +62,9 @@ def main():
     print("GPU accelerated Kruskal's MST from start to end:", mst_kruskal_from_gpu)
 
 
+    # Borůvka's MST (GPU-based)
+    mst_boruvka_gpu = boruvka_mst_gpu(graph, edges)
+    save_to_csv(mst_boruvka_gpu, "./result/boruvka_mst_gpu.csv")
+    print("GPU-based Borůvka’s MST:", mst_boruvka_gpu)
+
+
