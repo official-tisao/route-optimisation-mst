@@ -141,3 +141,6 @@ def build_graph(road_segments):
     edges.append((weight, from_node, to_node))
 
 
+  return graph, edges, node_mapping  # Return node mapping
+
+
