@@ -68,3 +68,9 @@ def main():
     print("GPU-based Borůvka’s MST:", mst_boruvka_gpu)
 
 
+    # Prim's MST (CPU-based)
+    mst_prim = prim_mst(graph)
+    save_to_csv(mst_prim, "./result/prim_mst.csv")
+    print("CPU-based Prim's MST:", mst_prim)
+
+
