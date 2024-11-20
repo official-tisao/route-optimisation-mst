@@ -144,3 +144,12 @@ def build_graph(road_segments):
   return graph, edges, node_mapping  # Return node mapping
 
 
+def load_data(road_segments_file, intersections_file):
+  """
+  Load CSV data using pandas.
+  """
+  road_segments = pd.read_csv(road_segments_file)
+  intersections = pd.read_csv(intersections_file)
+  return road_segments, intersections
+
+
