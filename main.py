@@ -99,3 +99,9 @@ def main():
     print("CPU-based Kruskal's MST:", mst_kruskal_cpu)
 
 
+    # Borůvka's MST (CPU-based)
+    mst_boruvka = boruvka_mst(graph, edges)
+    save_to_csv(mst_boruvka, "./result/boruvka_mst_cpu.csv")
+    print("CPU-based Borůvka’s MST:", mst_boruvka)
+
+
