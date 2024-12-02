@@ -105,3 +105,7 @@ def main():
     print("CPU-based Borůvka’s MST:", mst_boruvka)
 
 
+if __name__ == "__main__":
+    main()
+
+
