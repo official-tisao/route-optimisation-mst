@@ -6,3 +6,6 @@ import heapq
 import networkx as nx
 
 
+cp.cuda.Device(0).use()
+
+
