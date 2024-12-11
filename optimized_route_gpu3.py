@@ -5,3 +5,6 @@ import pandas as pd
 import heapq
 
 
+cp.cuda.Device(0).use()
+
+
