@@ -252,3 +252,8 @@ if __name__ == "__main__":
   nodes = set(graph.keys())
 
 
+  # Convert start and end node IDs
+  start_asset_id = node_mapping.get(start_asset_id, -1)
+  end_asset_id = node_mapping.get(end_asset_id, -1)
+
+
