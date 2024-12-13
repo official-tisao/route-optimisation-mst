@@ -37,3 +37,21 @@ class UnionFindGPU:
         self.rank[root_x] += 1
 
 
+def kruskal_mst_gpu(edges, nodes):
+  """
+  Fully GPU-accelerated Kruskal's MST algorithm.
+  """
+  edges_cp = cp.array(edges, dtype=cp.float64)
+  weights = edges_cp[:, 0]  # Extract weights (time)
+  sorted_indices = cp.argsort(weights)
+  sorted_edges = edges_cp[sorted_indices]
+  uf = UnionFindGPU(len(nodes))
+  mst = []
+  for edge in sorted_edges.get():
+    weight, u, v = edge
+    if uf.find(u) != uf.find(v):
+      uf.union(u, v)
+      mst.append((u, v, weight))
+  return mst
+
+
