@@ -52,3 +52,10 @@ def kruskal_mst_gpu(edges, nodes):
     mst = []
 
 
+    for edge in sorted_edges.get():  # Transfer to CPU only at the end
+        weight, u, v = edge
+        if uf.find(u) != uf.find(v):
+            uf.union(u, v)
+            mst.append((u, v, weight))
+
+
