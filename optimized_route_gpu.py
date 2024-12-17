@@ -55,3 +55,31 @@ def kruskal_mst_gpu(edges, nodes):
   return mst
 
 
+def boruvka_mst_gpu(graph, edges):
+  """
+  Fully GPU-optimized Borůvka’s MST using CuPy arrays.
+  """
+  nodes = cp.array(list(graph.keys()), dtype=cp.int32)
+  components = cp.arange(len(nodes), dtype=cp.int32)
+  num_components = len(nodes)
+  mst = []
+  while num_components > 1:
+    cheapest = cp.full((len(nodes), 3), -1, dtype=cp.float32)
+    for weight, u, v in edges:
+      root_u = components[u]
+      root_v = components[v]
+      if root_u != root_v:
+        if cheapest[root_u, 0] == -1 or edges[int(cheapest[root_u, 0])][0] > weight:
+          cheapest[root_u] = (u, v, weight)
+        if cheapest[root_v, 0] == -1 or edges[int(cheapest[root_v, 0])][0] > weight:
+          cheapest[root_v] = (u, v, weight)
+    for u, v, weight in cheapest:
+      root_u = components[u]
+      root_v = components[v]
+      if root_u != root_v:
+        mst.append((u, v, weight))
+        components[components == root_v] = root_u
+        num_components -= 1
+  return mst
+
+
