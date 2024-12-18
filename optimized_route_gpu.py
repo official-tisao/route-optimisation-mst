@@ -83,3 +83,14 @@ def boruvka_mst_gpu(graph, edges):
   return mst
 
 
+def calculate_time_weight(shape_length, speed_limit, default_speed=30):
+  """
+  Calculate time (in seconds) for a road segment based on shape_length (in meters)
+  and speed_limit (in km/h). If speed is missing or exceeds 30 km/h, use default 30 km/h.
+  """
+  if pd.notna(speed_limit) and speed_limit > 0 and speed_limit <= 30:
+    speed = speed_limit
+  else:
+    speed = default_speed
+
+
