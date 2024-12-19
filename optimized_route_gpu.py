@@ -94,3 +94,8 @@ def calculate_time_weight(shape_length, speed_limit, default_speed=30):
     speed = default_speed
 
 
+  speed_mps = (speed * 1000) / 3600  # Convert km/h to m/s
+  time_seconds = shape_length / speed_mps
+  return time_seconds
+
+
