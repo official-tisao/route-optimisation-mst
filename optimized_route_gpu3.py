@@ -48,3 +48,8 @@ def kruskal_mst_gpu(edges, nodes):
     sorted_edges = edges_cp[sorted_indices]  # Sorted edges on GPU
 
 
+    uf = UnionFindGPU(len(nodes))  # Pass the number of nodes, not the set
+    # GPU-based Union-Find
+    mst = []
+
+
