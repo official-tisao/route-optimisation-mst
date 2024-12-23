@@ -72,3 +72,7 @@ def boruvka_mst_gpu(graph, edges):
     mst = []
 
 
+    while num_components > 1:
+        cheapest = cp.full((len(nodes), 3), -1, dtype=cp.int32)  # Store tuples (u, v, weight)
+
+
