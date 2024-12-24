@@ -99,3 +99,14 @@ def calculate_time_weight(shape_length, speed_limit, default_speed=30):
   return time_seconds
 
 
+def build_graph(road_segments):
+  graph = {}
+  edges = []
+  # Identify and print rows with missing FROMNODE or TONODE
+  nan_rows = road_segments[road_segments["FROMNODE"].isna() | road_segments["TONODE"].isna()]
+  if not nan_rows.empty:
+    print("\n🚨 The following records contain NaN values and will be removed:\n")
+    print(nan_rows.to_string(index=False))
+    # Drop rows with NaN values in FROMNODE or TONODE
+
+
