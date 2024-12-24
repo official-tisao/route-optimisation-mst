@@ -276,3 +276,9 @@ if __name__ == "__main__":
   print("GPU accelerated Kruskal's MST from start to end:", mst_kruskal_from_gpu)
 
 
+  # Prim's MST (CPU-based)
+  mst_prim = prim_mst(graph)
+  save_to_csv(mst_prim, ".idea/inspectionProfiles/prim_mst.csv")
+  print("CPU-based Prim's MST:", mst_prim)
+
+
