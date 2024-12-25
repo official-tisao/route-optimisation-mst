@@ -110,3 +110,6 @@ def build_graph(road_segments):
     # Drop rows with NaN values in FROMNODE or TONODE
 
 
+  road_segments = road_segments.dropna(subset=["FROMNODE", "TONODE"]).copy()
+
+
