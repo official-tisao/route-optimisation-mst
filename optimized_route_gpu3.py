@@ -60,3 +60,6 @@ def kruskal_mst_gpu(edges, nodes):
             mst.append((u, v, weight))
 
 
+    return mst
+
+
