@@ -77,3 +77,13 @@ def boruvka_mst_gpu(graph, edges):
         cheapest = cp.full((len(nodes), 3), -1, dtype=cp.int32)  # Store tuples (u, v, weight)
 
 
+        for weight, u, v in edges:
+            root_u = components[u]
+            root_v = components[v]
+            if root_u != root_v:
+                if cheapest[root_u, 0] == -1 or edges[int(cheapest[root_u, 0])][0] > weight:
+                    cheapest[root_u] = (u, v, weight)
+                if cheapest[root_v, 0] == -1 or edges[int(cheapest[root_v, 0])][0] > weight:
+                    cheapest[root_v] = (u, v, weight)
+
+
