@@ -87,3 +87,8 @@ def boruvka_mst_gpu(graph, edges):
                     cheapest[root_v] = (u, v, weight)
 
 
+        # values = cheapest.get()
+        # if isinstance(values, np.int32):
+        #     values = [values]
+
+
