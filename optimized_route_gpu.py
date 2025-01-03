@@ -128,3 +128,9 @@ def build_graph(road_segments):
     weight = calculate_time_weight(row["Shape_Length"], row["SPEEDLIMIT"])  # Time-based weight
 
 
+    if from_node not in graph:
+      graph[from_node] = []
+    if to_node not in graph:
+      graph[to_node] = []
+
+
