@@ -115,3 +115,7 @@ def build_graph(road_segments):
         print(nan_rows.to_string(index=False))  # Print without Pandas index
 
 
+    # Drop rows with NaN values in FROMNODE or TONODE
+    road_segments = road_segments.dropna(subset=["FROMNODE", "TONODE"]).copy()
+
+
