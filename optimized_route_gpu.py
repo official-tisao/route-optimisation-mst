@@ -151,3 +151,17 @@ def load_data(road_segments_file, intersections_file):
     return road_segments, intersections
 
 
+def chinese_postman_problem(road_segments):
+  """
+  Solve the Chinese Postman Problem to find the shortest route covering all edges.
+  Returns the total time (seconds) and route.
+  """
+  # Build undirected graph with NetworkX
+  G = nx.Graph()
+  for _, row in road_segments.iterrows():
+    from_node = int(row["FROMNODE"])
+    to_node = int(row["TONODE"])
+    weight = calculate_time_weight(row["Shape_Length"], row["SPEEDLIMIT"])
+    G.add_edge(from_node, to_node, weight=weight)
+
+
