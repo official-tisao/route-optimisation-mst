@@ -104,3 +104,8 @@ def boruvka_mst_gpu(graph, edges):
     return mst
 
 
+def build_graph(road_segments):
+    graph = {}
+    edges = []
+
+
