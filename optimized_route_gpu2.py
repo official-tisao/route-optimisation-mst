@@ -124,3 +124,7 @@ def build_graph(road_segments):
     road_segments.loc[:, "TONODE"] = road_segments["TONODE"].astype(int)
 
 
+    unique_nodes = set(road_segments["FROMNODE"]).union(set(road_segments["TONODE"]))
+    node_mapping = {node: idx for idx, node in enumerate(unique_nodes)}
+
+
