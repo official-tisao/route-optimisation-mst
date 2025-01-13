@@ -109,3 +109,10 @@ def build_graph(road_segments):
     edges = []
 
 
+    # Identify and print rows with missing FROMNODE or TONODE
+    nan_rows = road_segments[road_segments["FROMNODE"].isna() | road_segments["TONODE"].isna()]
+    if not nan_rows.empty:
+        print("\n🚨 The following records contain NaN values and will be removed:\n")
+        print(nan_rows.to_string(index=False))  # Print without Pandas index
+
+
