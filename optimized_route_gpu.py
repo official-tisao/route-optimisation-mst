@@ -165,3 +165,18 @@ def chinese_postman_problem(road_segments):
     G.add_edge(from_node, to_node, weight=weight)
 
 
+  # Check if Eulerian
+  odd_nodes = [node for node, degree in G.degree() if degree % 2 != 0]
+  if not odd_nodes:
+    # Fully Eulerian, find circuit
+    route = list(nx.eulerian_circuit(G))
+  else:
+    # Add edges to make Eulerian
+    G_euler = nx.Graph(G)
+    odd_pairs = nx.min_weight_matching(G.subgraph(odd_nodes))
+    for u, v in odd_pairs:
+      weight = nx.shortest_path_length(G, u, v, weight="weight")
+      G_euler.add_edge(u, v, weight=weight)
+    route = list(nx.eulerian_circuit(G_euler))
+
+
