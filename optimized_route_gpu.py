@@ -180,3 +180,8 @@ def chinese_postman_problem(road_segments):
     route = list(nx.eulerian_circuit(G_euler))
 
 
+  # Calculate total time
+  total_time = sum(G[u][v]["weight"] if (u, v) in G.edges else G[v][u]["weight"] for u, v in route)
+  return route, total_time
+
+
