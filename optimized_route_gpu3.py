@@ -120,3 +120,8 @@ def build_graph(road_segments):
     road_segments = road_segments.dropna(subset=["FROMNODE", "TONODE"]).copy()
 
 
+    # Convert node IDs to integers safely
+    road_segments.loc[:, "FROMNODE"] = road_segments["FROMNODE"].astype(int)
+    road_segments.loc[:, "TONODE"] = road_segments["TONODE"].astype(int)
+
+
