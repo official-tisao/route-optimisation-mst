@@ -185,3 +185,9 @@ def chinese_postman_problem(road_segments):
   return route, total_time
 
 
+def kruskal_mst_from_gpu(edges, nodes, start, end):
+  mst = kruskal_mst_gpu(edges, nodes)
+  filtered_mst = [edge for edge in mst if edge[0] == start or edge[1] == end]
+  return filtered_mst if filtered_mst else "No path found between start and end"
+
+
