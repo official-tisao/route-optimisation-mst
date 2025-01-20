@@ -191,3 +191,23 @@ def kruskal_mst_from_gpu(edges, nodes, start, end):
   return filtered_mst if filtered_mst else "No path found between start and end"
 
 
+def kruskal_mst_cpu(edges, nodes):
+    """
+    Kruskal's MST using CPU-based sorting with NumPy.
+    """
+    edges_np = np.array(edges)
+    if edges_np.size == 0:
+        return []
+    weights = edges_np[:, 0].astype(np.float64)
+    sorted_indices = np.argsort(weights)
+    sorted_edges = edges_np[sorted_indices]
+    uf = UnionFind(nodes)
+    mst = []
+    for edge in sorted_edges:
+        weight, u, v = edge
+        if uf.find(u) != uf.find(v):
+            uf.union(u, v)
+            mst.append((u, v, weight))
+    return mst
+
+
