@@ -232,3 +232,32 @@ def prim_mst(graph):
     return mst
 
 
+def boruvka_mst(graph, edges):
+    """
+    Borůvka’s MST algorithm (CPU-based).
+    """
+    components = {node: node for node in graph}
+    num_components = len(graph)
+    mst = []
+    while num_components > 1:
+        cheapest = {}
+        for weight, u, v in edges:
+            root_u = components[u]
+            root_v = components[v]
+            if root_u != root_v:
+                if (root_u not in cheapest) or (cheapest[root_u][2] > weight):
+                    cheapest[root_u] = (u, v, weight)
+                if (root_v not in cheapest) or (cheapest[root_v][2] > weight):
+                    cheapest[root_v] = (u, v, weight)
+        for u, v, weight in cheapest.values():
+            root_u = components[u]
+            root_v = components[v]
+            if root_u != root_v:
+                mst.append((u, v, weight))
+                for node in components:
+                    if components[node] == root_v:
+                        components[node] = root_u
+                num_components -= 1
+    return mst
+
+
