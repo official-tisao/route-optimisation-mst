@@ -135,3 +135,9 @@ def build_graph(road_segments):
         weight = row["Shape_Length"]
 
 
+        if from_node not in graph:
+            graph[from_node] = []
+        if to_node not in graph:
+            graph[to_node] = []
+
+
