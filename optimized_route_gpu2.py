@@ -157,3 +157,29 @@ def load_data(road_segments_file, intersections_file):
     return road_segments, intersections
 
 
+# def build_graph(road_segments):
+#     """
+#     Build a bidirectional graph and edge list from road segments.
+#     """
+#     graph = {}
+#     edges = []
+#     for _, row in road_segments.iterrows():
+#         from_node = row['FROMNODE']
+#         to_node = row['TONODE']
+#         weight = row['Shape_Length']
+#
+#         # Validate data
+#         if pd.isna(from_node) or pd.isna(to_node) or pd.isna(weight):
+#             print(f"Skipping invalid row: {row}")
+#             continue
+#
+#         if from_node not in graph:
+#             graph[from_node] = []
+#         if to_node not in graph:
+#             graph[to_node] = []
+#         graph[from_node].append((weight, to_node))
+#         graph[to_node].append((weight, from_node))
+#         edges.append((weight, from_node, to_node))
+#     return graph, edges
+
+
