@@ -141,3 +141,8 @@ def build_graph(road_segments):
             graph[to_node] = []
 
 
+        graph[from_node].append((weight, to_node))
+        graph[to_node].append((weight, from_node))
+        edges.append((weight, from_node, to_node))
+
+
