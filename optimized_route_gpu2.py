@@ -183,3 +183,23 @@ def load_data(road_segments_file, intersections_file):
 #     return graph, edges
 
 
+# def kruskal_mst_gpu(edges, nodes):
+#     """
+#     Kruskal's MST using GPU-accelerated sorting with CuPy.
+#     """
+#     edges_np = np.array(edges)
+#     if edges_np.size == 0:
+#         return []
+#     weights = edges_np[:, 0].astype(np.float64)
+#     sorted_indices = cp.asnumpy(cp.argsort(cp.asarray(weights)))
+#     sorted_edges = edges_np[sorted_indices]
+#     uf = UnionFind(nodes)
+#     mst = []
+#     for edge in sorted_edges:
+#         weight, u, v = edge
+#         if uf.find(u) != uf.find(v):
+#             uf.union(u, v)
+#             mst.append((u, v, weight))
+#     return mst
+
+
