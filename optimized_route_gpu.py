@@ -276,3 +276,7 @@ if __name__ == "__main__":
   # graph, edges = build_graph(road_segments)
 
 
+  start_asset_id = 142196  # Change this to your desired start
+  end_asset_id = 142195  # Change this to your desired end
+
+
