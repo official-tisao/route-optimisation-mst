@@ -280,3 +280,8 @@ if __name__ == "__main__":
   end_asset_id = 142195  # Change this to your desired end
 
 
+  # Build graph with time-based weights
+  graph, edges, node_mapping = build_graph(road_segments)
+  nodes = set(graph.keys())
+
+
