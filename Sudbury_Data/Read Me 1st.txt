@@ -1,0 +1,17 @@
+Read Me:
+
+In the "Sudbury_Data.zip" file you have the following data.
+
+1) PDF maps ("Winter Control Salt & Sand Routes (All Sections)-2024 & 2025.pdf) for all the Sand and Salt winter control routes in the South, Southeast, Southwest, Northwest, and Northeast sections. Each map illustrates the route and the directionality (arrow) that the plow driver need to follow.
+
+2) The Geodatabase ("Winter_Control_Data.gdb") has three feature datasets (Data, Winter_Control_Routes, and Winter_Control_Consat).
+	
+a) In the 'Data' feature dataset, you have the 'Depots' feature class which has the name and the address of each depot, Road_Segment feature class which is all our road network within the City of Greater Sudbury Boundary, and 'Intersection_Point' feature class are all intersection points on our Road_Segment feature class (some types are all-way stops, dead-ends, cul-de-sacs, yield stops, etc).
+
+b) In the 'Winter_Control_Routes' feature dataset, there are 48 feature classes. They are the Salt and Sand winter control routes.  For example: Plow_and_Salt_1_SE, Plow_and_Sand_3_NE, etc. Lead (1st truck) and Echelon (2nd truck) means that there are two plow trucks per route.
+
+c) In the 'Winter_Control_Consat' feature dataset, there are 52 feature classes. This data was extracted from our AVL system called Consat. They are driving instructions for the plow drivers. For example: Plow_and_Salt_3_SW_Directionality, Plow_and_Sand_6_S_Directionality, etc.  You will see arrows on the PDF maps that correspond to the data seen in these feature classes (for example: turn right, turn left, turn around. You will also see the Activity such as plow and sand or no activity).
+ 
+
+* All data is dated January 29, 2025 *
+* Coordinate system is NAD 1983 UTM Zone 17N *
