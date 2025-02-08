@@ -5,7 +5,7 @@ from scipy.spatial.distance import pdist, squareform
 from geopy.distance import geodesic
 
 # Step 1: Load the Intersection_Point feature class
-intersections = gpd.read_file('Winter_Control_Data.gdb', layer='Intersection_Point')
+intersections = gpd.read_file('Sudbury_Data/Winter_Control_Data.gdb', layer='Intersection_Point')
 
 # Step 2: Extract coordinates
 intersections['longitude'] = intersections.geometry.x
