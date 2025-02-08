@@ -31,6 +31,7 @@ to help save snow plowing cost for Ontario City of Sudbury.
     pip install .
     ```
 5. **Run the package:**
+
     5.1 **Run the main from the command line:**
 
     ```bash
@@ -50,4 +51,6 @@ to help save snow plowing cost for Ontario City of Sudbury.
    
 7. **When you are done, Deactivate the virtual environment:**
 
-    ```deactivate```
+   ```bash
+   deactivate
+   ```
