@@ -299,3 +299,9 @@ if __name__ == "__main__":
   save_to_csv([(u, v, G[u][v]["weight"]) for u, v in cpp_route], "./result/cpp_route.csv")
 
 
+  # MST Algorithms with time-based weights
+  mst_boruvka_gpu = boruvka_mst_gpu(graph, edges)
+  save_to_csv(mst_boruvka_gpu, "./result/boruvka_mst_gpu.csv")
+  print("GPU-based Borůvka’s MST:", mst_boruvka_gpu)
+
+
