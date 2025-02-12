@@ -305,3 +305,9 @@ if __name__ == "__main__":
   print("GPU-based Borůvka’s MST:", mst_boruvka_gpu)
 
 
+  # GPU accelerated Kruskal's MST from start to end
+  mst_kruskal_from_gpu = kruskal_mst_from_gpu(edges, nodes, start_asset_id, end_asset_id)
+  save_to_csv(mst_kruskal_from_gpu, "./result/kruskal_mst_from_gpu.csv")
+  print("GPU accelerated Kruskal's MST from start to end:", mst_kruskal_from_gpu)
+
+
