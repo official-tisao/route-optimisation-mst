@@ -259,3 +259,24 @@ def kruskal_mst_cpu(edges, nodes):
     return mst
 
 
+def prim_mst(graph):
+    """
+    Prim's MST algorithm (CPU-based).
+    """
+    start_node = next(iter(graph))
+    min_heap = [(0, start_node, None)]
+    visited = set()
+    mst = []
+    while min_heap:
+        weight, node, parent = heapq.heappop(min_heap)
+        if node in visited:
+            continue
+        visited.add(node)
+        if parent is not None:
+            mst.append((parent, node, weight))
+        for neighbor_weight, neighbor in graph[node]:
+            if neighbor not in visited:
+                heapq.heappush(min_heap, (neighbor_weight, neighbor, node))
+    return mst
+
+
