@@ -309,3 +309,11 @@ def boruvka_mst(graph, edges):
     return mst
 
 
+def save_to_csv(mst, filename):
+    """
+    Save the MST result to a CSV file.
+    """
+    df = pd.DataFrame(mst, columns=['FromNode', 'ToNode', 'Weight'])
+    df.to_csv(filename, index=False)
+
+
