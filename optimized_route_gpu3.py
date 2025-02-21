@@ -317,3 +317,10 @@ def save_to_csv(mst, filename):
     df.to_csv(filename, index=False)
 
 
+if __name__ == "__main__":
+    road_segments_file = "./road_segment.csv"
+    intersections_file = "./intersection.csv"
+    road_segments, intersections = load_data(road_segments_file, intersections_file)
+    # graph, edges = build_graph(road_segments)
+
+
