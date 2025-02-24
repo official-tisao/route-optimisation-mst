@@ -336,3 +336,7 @@ if __name__ == "__main__":
     end_asset_id = node_mapping.get(end_asset_id, -1)
 
 
+    if start_asset_id == -1 or end_asset_id == -1:
+        raise ValueError("Invalid start or end asset IDs after mapping")
+
+
