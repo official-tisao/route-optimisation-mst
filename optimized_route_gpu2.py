@@ -343,3 +343,9 @@ if __name__ == "__main__":
     # Set specific start and end AssetIDs
 
 
+    # Borůvka's MST (GPU-based)
+    mst_boruvka_gpu = boruvka_mst_gpu(graph, edges)
+    save_to_csv(mst_boruvka_gpu, "./result/boruvka_mst_gpu.csv")
+    print("GPU-based Borůvka’s MST:", mst_boruvka_gpu)
+
+
