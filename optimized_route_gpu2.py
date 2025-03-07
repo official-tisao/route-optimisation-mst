@@ -361,3 +361,9 @@ if __name__ == "__main__":
     print("CPU-based Prim's MST:", mst_prim)
 
 
+    # Kruskal's MST (CPU-based)
+    mst_kruskal_cpu = kruskal_mst_cpu(edges, nodes)
+    save_to_csv(mst_kruskal_cpu, "./result/kruskal_mst_cpu.csv")
+    print("CPU-based Kruskal's MST:", mst_kruskal_cpu)
+
+
