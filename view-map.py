@@ -17,9 +17,15 @@ for idx, row in intersections.iterrows():
   G.add_node(idx, pos=(row['longitude'], row['latitude']))
 
 # Step 4: Calculate pairwise distances
+# coords = list(zip(intersections['latitude'], intersections['longitude']))
+# #distances = squareform(pdist(coords, lambda u, v: geodesic(u, v).meters))
+# distances = squareform(
+#   pdist(coords, lambda u, v: geodesic((u[0], u[1]), (v[0], v[1])).meters)
+# )
 coords = list(zip(intersections['latitude'], intersections['longitude']))
-distances = squareform(pdist(coords, lambda u, v: geodesic(u, v).meters))
 
+# Calculate the pairwise distances
+distances = squareform(pdist(coords, lambda u, v: geodesic(u, v).meters))
 # Step 5: Add weighted edges
 for i in range(len(distances)):
   for j in range(i + 1, len(distances)):
