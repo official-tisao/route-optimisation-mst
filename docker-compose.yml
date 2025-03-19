@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  jupyter:
+    image: quay.io/jupyter/base-notebook:python-3.12  # Specify Python version
+    container_name: jupyter_notebook
+    ports:
+      - "8889:8888"
+    volumes:
+      - .:/home/jovyan/work
+    command: start-notebook.py --NotebookApp.token='tisao-token'
