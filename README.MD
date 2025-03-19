@@ -25,6 +25,11 @@ to help save snow plowing cost for Ontario City of Sudbury.
    ```bash
     source .venv/bin/activate
     ```
+    OR (if above command does not work)
+
+   ```bash
+    .venv\Scripts\Activate.ps1
+    ```
 4. **Install the package:**
 
     ```bash
