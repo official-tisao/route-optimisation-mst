@@ -6,6 +6,8 @@ from geopy.distance import geodesic
 from pyproj import Proj, Transformer
 from datetime import datetime
 
+# arcpy
+
 # Define UTM Zone (e.g., UTM Zone 17N for Ontario, Canada)
 utm_proj = Proj(proj="utm", zone=17, ellps="WGS84", south=False)
 wgs84_proj = Proj(proj="latlong", datum="WGS84")
@@ -15,7 +17,11 @@ transformer = Transformer.from_proj(utm_proj, wgs84_proj)
 
 # Load the Intersection_Point feature class
 intersections = gpd.read_file('Sudbury_Data/Winter_Control_Data.gdb', layer='Intersection_Point')
+road_segment = gpd.read_file('Sudbury_Data/Winter_Control_Data.gdb', layer='Road_Segment')
 
+road_segment.drop(columns='geometry').to_csv('road_segment.csv', index=False)
+
+print("Exported road_segment to road_segment.csv successfully!")
 # Convert the geometry column to latitude and longitude
 intersections['longitude'] = intersections.geometry.x
 intersections['latitude'] = intersections.geometry.y
