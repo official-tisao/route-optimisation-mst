@@ -54,3 +54,48 @@ to help save snow plowing cost for Ontario City of Sudbury.
    ```bash
    deactivate
    ```
+
+# Minimum Spanning Tree (MST) Algorithms
+
+This project implements three Minimum Spanning Tree (MST) algorithms:
+
+- **Kruskal's Algorithm**
+- **Prim's Algorithm**
+- **Borůvka’s Algorithm**
+
+It loads road network data from **CSV files** (`road_segments.csv`, `intersections.csv`) and builds a graph to compute MSTs.
+
+---
+
+## Features
+
+- ✅ **Load CSV data for road segments and intersections**
+- ✅ **Compute MST using Kruskal, Prim, and Borůvka**
+- ✅ **Set a specific start and end intersection (ASSETID)**
+- ✅ **Preserve original MST implementations**
+- ✅ **If no path exists, return an appropriate error message**
+
+---
+
+## New Functionality
+
+| Algorithm | Method | Finds Full MST? | Finds MST for Specific Path? |
+|-----------|--------|----------------|------------------------------|
+| **Kruskal** | `kruskal_mst()` | ✅ Yes | ❌ No |
+| **Kruskal** | `kruskal_mst_from(start, end)` | ❌ No | ✅ Yes |
+| **Prim** | `prim_mst()` | ✅ Yes | ❌ No |
+| **Prim** | `prim_mst_from(start, end)` | ❌ No | ✅ Yes |
+| **Borůvka** | `boruvka_mst()` | ✅ Yes | ❌ No |
+| **Borůvka** | `boruvka_mst_from(start, end)` | ❌ No | ✅ Yes |
+
+---
+
+## Usage
+
+1. **Set CSV file paths**  
+   Ensure you have the correct paths for `road_segments.csv` and `intersections.csv`.
+
+2. **Modify the Start & End Intersection IDs**
+   ```python
+   start_asset_id = 142196  # Change this to your desired start ASSETID
+   end_asset_id = 142195  # Change this to your desired end ASSETID
