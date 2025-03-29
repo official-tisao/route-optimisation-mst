@@ -9,12 +9,15 @@ setup(
         "networkx",
         "matplotlib",
         "scipy",
-        "geopy"
+        "geopy",
+        "numpy",
+        "cupy",
+        "cupy-cuda116"
     ],
     # Add other metadata here (optional)
-    author="Your Name",
-    author_email="your_email@example.com",
-    description="A brief description of your project",
+    author="Saheed Oluwatosin Tiamiyu",
+    author_email="tiamiyusaheedoluwatosin@gmail.com",
+    description="Snow Route Optimization using Minimum Spanning Tree algorithms",
     license="MIT",  # Choose an appropriate license
     # ...
 )
