@@ -1,3 +1,4 @@
+# File: optimized_route_gpu.py
 import cupy as cp
 import numpy as np
 import pandas as pd
@@ -5,11 +6,17 @@ import heapq
 from union_find import UnionFind
 
 def load_data(road_segments_file, intersections_file):
+    """
+    Load CSV data using pandas.
+    """
     road_segments = pd.read_csv(road_segments_file)
     intersections = pd.read_csv(intersections_file)
     return road_segments, intersections
 
 def build_graph(road_segments):
+    """
+    Build a bidirectional graph and edge list from road segments.
+    """
     graph = {}
     edges = []
     for _, row in road_segments.iterrows():
@@ -25,8 +32,10 @@ def build_graph(road_segments):
         edges.append((weight, from_node, to_node))
     return graph, edges
 
-# GPU-accelerated Kruskal's MST using CuPy for sorting edges
 def kruskal_mst_gpu(edges, nodes):
+    """
+    Kruskal's MST using GPU-accelerated sorting with CuPy.
+    """
     edges_np = np.array(edges)
     if edges_np.size == 0:
         return []
@@ -42,8 +51,10 @@ def kruskal_mst_gpu(edges, nodes):
             mst.append((u, v, weight))
     return mst
 
-# CPU-based Prim's MST algorithm
 def prim_mst(graph):
+    """
+    Prim's MST algorithm (CPU-based).
+    """
     start_node = next(iter(graph))
     min_heap = [(0, start_node, None)]
     visited = set()
@@ -60,8 +71,10 @@ def prim_mst(graph):
                 heapq.heappush(min_heap, (neighbor_weight, neighbor, node))
     return mst
 
-# CPU-based Bor\u016fvka\u2019s MST algorithm
 def boruvka_mst(graph, edges):
+    """
+    Bor\u016fvka\u2019s MST algorithm (CPU-based).
+    """
     components = {node: node for node in graph}
     num_components = len(graph)
     mst = []
@@ -71,9 +84,9 @@ def boruvka_mst(graph, edges):
             root_u = components[u]
             root_v = components[v]
             if root_u != root_v:
-                if root_u not in cheapest or cheapest[root_u][2] > weight:
+                if (root_u not in cheapest) or (cheapest[root_u][2] > weight):
                     cheapest[root_u] = (u, v, weight)
-                if root_v not in cheapest or cheapest[root_v][2] > weight:
+                if (root_v not in cheapest) or (cheapest[root_v][2] > weight):
                     cheapest[root_v] = (u, v, weight)
         for u, v, weight in cheapest.values():
             root_u = components[u]
@@ -87,9 +100,9 @@ def boruvka_mst(graph, edges):
     return mst
 
 if __name__ == "__main__":
+    # Sample execution for testing; no code runs on import.
     road_segments_file = "./road_segment.csv"
     intersections_file = "./intersection.csv"
-
     road_segments, intersections = load_data(road_segments_file, intersections_file)
     graph, edges = build_graph(road_segments)
     nodes = set(graph.keys())
@@ -98,6 +111,6 @@ if __name__ == "__main__":
     mst_prim = prim_mst(graph)
     mst_boruvka = boruvka_mst(graph, edges)
 
-    print("GPU accelerated Kruskal\'s MST:", mst_kruskal_gpu)
-    print("Prim\'s MST:", mst_prim)
+    print("GPU accelerated Kruskal's MST:", mst_kruskal_gpu)
+    print("Prim's MST:", mst_prim)
     print("Bor\u016fvka\u2019s MST:", mst_boruvka)
