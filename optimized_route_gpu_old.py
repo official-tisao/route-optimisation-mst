@@ -145,10 +145,10 @@ if __name__ == "__main__":
     nodes = set(graph.keys())
 
     mst_kruskal_gpu = kruskal_mst_gpu(edges, nodes)
-    save_to_csv(mst_kruskal_gpu, "./result/kruskal_algorithm_road_intersection.csv")
+    save_to_csv(mst_kruskal_gpu, ".idea/inspectionProfiles/kruskal_algorithm_road_intersection.csv")
 
     mst_prim = prim_mst(graph)
-    save_to_csv(mst_prim, "./result/prims_algorithm_road_intersection.csv")
+    save_to_csv(mst_prim, ".idea/inspectionProfiles/prims_algorithm_road_intersection.csv")
 
     mst_boruvka = boruvka_mst(graph, edges)
     save_to_csv(mst_boruvka, "./result/boruvka_algorithm_road_intersection.csv")

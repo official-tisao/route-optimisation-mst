@@ -311,12 +311,12 @@ if __name__ == "__main__":
 
     # GPU accelerated Kruskal's MST from start to end
     mst_kruskal_from_gpu = kruskal_mst_from_gpu(edges, nodes, start_asset_id, end_asset_id)
-    save_to_csv(mst_kruskal_from_gpu, "./result/kruskal_mst_from_gpu.csv")
+    save_to_csv(mst_kruskal_from_gpu, ".idea/inspectionProfiles/kruskal_mst_from_gpu.csv")
     print("GPU accelerated Kruskal's MST from start to end:", mst_kruskal_from_gpu)
 
     # Prim's MST (CPU-based)
     mst_prim = prim_mst(graph)
-    save_to_csv(mst_prim, "./result/prim_mst.csv")
+    save_to_csv(mst_prim, ".idea/inspectionProfiles/prim_mst.csv")
     print("CPU-based Prim's MST:", mst_prim)
 
     # Kruskal's MST (CPU-based)
