@@ -11,8 +11,8 @@ setup(
         "scipy",
         "geopy",
         "numpy",
-        "cupy",
-        "cupy-cuda116"
+        # "cupy",
+        "cupy-cuda12x"
     ],
     # Add other metadata here (optional)
     author="Saheed Oluwatosin Tiamiyu",
