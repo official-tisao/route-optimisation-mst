@@ -121,6 +121,13 @@ def boruvka_mst_from(graph, edges, start, end):
   filtered_mst = [edge for edge in mst if edge[0] == start or edge[1] == end]
   return filtered_mst if filtered_mst else "No path found between start and end"
 
+def save_to_csv(mst, filename):
+  """
+  Save the MST result to a CSV file.
+  """
+  df = pd.DataFrame(mst, columns=['FromNode', 'ToNode', 'Weight'])
+  df.to_csv(filename, index=False)
+
 # Main Execution
 road_segments_file = "road_segment.csv"
 intersections_file = "intersection.csv"

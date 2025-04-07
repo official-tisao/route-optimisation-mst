@@ -1,20 +1,17 @@
-from union_find import UnionFind
-import cupy as cp
-import numpy as np
 import pandas as pd
-import heapq
 import networkx as nx
-
-cp.cuda.Device(0).use()
-
 
 def calculate_time_weight(shape_length, speed_limit, default_speed=30):
   """
   Calculate edge weight as time (seconds) based on Shape_Length (meters) and SPEEDLIMIT (km/h).
   If speed_limit is NaN, use default_speed (km/h).
   """
-  speed = speed_limit if pd.notna(speed_limit) else default_speed  # Default to 30 km/h
+  if(pd.notna(speed_limit) and speed_limit > 0):
+    speed = speed_limit
+  else:
+    speed = default_speed
   speed_mps = speed * (5 / 18)  # Convert km/h to m/s
+  print (f"Speed: {speed} km/h, Shape_Length: {shape_length}, speed_mps: {speed_mps} m")
   return (shape_length * 18) / (5 * speed)  # Time in seconds
 
 def build_graph(road_segments):
@@ -60,13 +57,14 @@ def load_data(road_segments_file, intersections_file):
     intersections = pd.read_csv(intersections_file)
     return road_segments, intersections
 
-def chinese_postman_problem(road_segments):
+def cpp(road_segments):
   """
   Solve the Chinese Postman Problem to find the shortest route covering all edges.
   Returns the total time (seconds) and route.
   """
   # Build undirected graph with NetworkX
   G = nx.Graph()
+  road_segments = road_segments.dropna(subset=["FROMNODE", "TONODE"]).copy()
   for _, row in road_segments.iterrows():
     from_node = int(row["FROMNODE"])
     to_node = int(row["TONODE"])
@@ -91,78 +89,6 @@ def chinese_postman_problem(road_segments):
   total_time = sum(G[u][v]["weight"] if (u, v) in G.edges else G[v][u]["weight"] for u, v in route)
   return route, total_time
 
-def kruskal_mst_from_gpu(edges, nodes, start, end):
-  mst = kruskal_mst_gpu(edges, nodes)
-  filtered_mst = [edge for edge in mst if edge[0] == start or edge[1] == end]
-  return filtered_mst if filtered_mst else "No path found between start and end"
-
-def kruskal_mst_cpu(edges, nodes):
-    """
-    Kruskal's MST using CPU-based sorting with NumPy.
-    """
-    edges_np = np.array(edges)
-    if edges_np.size == 0:
-        return []
-    weights = edges_np[:, 0].astype(np.float64)
-    sorted_indices = np.argsort(weights)
-    sorted_edges = edges_np[sorted_indices]
-    uf = UnionFind(nodes)
-    mst = []
-    for edge in sorted_edges:
-        weight, u, v = edge
-        if uf.find(u) != uf.find(v):
-            uf.union(u, v)
-            mst.append((u, v, weight))
-    return mst
-
-def prim_mst(graph):
-    """
-    Prim's MST algorithm (CPU-based).
-    """
-    start_node = next(iter(graph))
-    min_heap = [(0, start_node, None)]
-    visited = set()
-    mst = []
-    while min_heap:
-        weight, node, parent = heapq.heappop(min_heap)
-        if node in visited:
-            continue
-        visited.add(node)
-        if parent is not None:
-            mst.append((parent, node, weight))
-        for neighbor_weight, neighbor in graph[node]:
-            if neighbor not in visited:
-                heapq.heappush(min_heap, (neighbor_weight, neighbor, node))
-    return mst
-
-def boruvka_mst(graph, edges):
-    """
-    Borůvka’s MST algorithm (CPU-based).
-    """
-    components = {node: node for node in graph}
-    num_components = len(graph)
-    mst = []
-    while num_components > 1:
-        cheapest = {}
-        for weight, u, v in edges:
-            root_u = components[u]
-            root_v = components[v]
-            if root_u != root_v:
-                if (root_u not in cheapest) or (cheapest[root_u][2] > weight):
-                    cheapest[root_u] = (u, v, weight)
-                if (root_v not in cheapest) or (cheapest[root_v][2] > weight):
-                    cheapest[root_v] = (u, v, weight)
-        for u, v, weight in cheapest.values():
-            root_u = components[u]
-            root_v = components[v]
-            if root_u != root_v:
-                mst.append((u, v, weight))
-                for node in components:
-                    if components[node] == root_v:
-                        components[node] = root_u
-                num_components -= 1
-    return mst
-
 def save_to_csv(mst, filename):
     """
     Save the MST result to a CSV file.
@@ -171,10 +97,10 @@ def save_to_csv(mst, filename):
     df.to_csv(filename, index=False)
 
 if __name__ == "__main__":
-    road_segments_file = "./road_segment.csv"
-    intersections_file = "./intersection.csv"
-    road_segments, intersections = load_data(road_segments_file, intersections_file)
-    # graph, edges = build_graph(road_segments)
+  road_segments_file = "./road_segment.csv"
+  intersections_file = "./intersection.csv"
+  road_segments, intersections = load_data(road_segments_file, intersections_file)
+  # graph, edges = build_graph(road_segments)
 
   start_asset_id = 142196
   end_asset_id = 142195
@@ -190,7 +116,7 @@ if __name__ == "__main__":
     raise ValueError("Invalid start or end asset IDs after mapping")
 
   # Chinese Postman Problem
-  cpp_route, cpp_total_time = chinese_postman_problem(road_segments)
+  cpp_route, cpp_total_time = cpp(road_segments)
   print("CPP Route:", cpp_route)
   print("Total Time (seconds):", cpp_total_time)
   save_to_csv([(u, v, G[u][v]["weight"]) for u, v in cpp_route], "./result/cpp_route.csv")
@@ -210,12 +136,12 @@ if __name__ == "__main__":
   save_to_csv(mst_prim, "./result/prim_mst.csv")
   print("CPU-based Prim's MST:", mst_prim)
 
-    # Kruskal's MST (CPU-based)
-    mst_kruskal_cpu = kruskal_mst_cpu(edges, nodes)
-    save_to_csv(mst_kruskal_cpu, "./result/kruskal_mst_cpu.csv")
-    print("CPU-based Kruskal's MST:", mst_kruskal_cpu)
+  # Kruskal's MST (CPU-based)
+  mst_kruskal_cpu = kruskal_mst_cpu(edges, nodes)
+  save_to_csv(mst_kruskal_cpu, "./result/kruskal_mst_cpu.csv")
+  print("CPU-based Kruskal's MST:", mst_kruskal_cpu)
 
-    # Borůvka's MST (CPU-based)
-    mst_boruvka = boruvka_mst(graph, edges)
-    save_to_csv(mst_boruvka, "./result/boruvka_mst_cpu.csv")
-    print("CPU-based Borůvka’s MST:", mst_boruvka)
+  # Borůvka's MST (CPU-based)
+  mst_boruvka = boruvka_mst(graph, edges)
+  save_to_csv(mst_boruvka, "./result/boruvka_mst_cpu.csv")
+  print("CPU-based Borůvka’s MST:", mst_boruvka)

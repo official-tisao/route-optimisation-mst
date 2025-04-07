@@ -1,12 +1,4 @@
-from union_find import UnionFind
-import cupy as cp
-import numpy as np
 import pandas as pd
-import heapq
-import networkx as nx
-
-cp.cuda.Device(0).use()
-
 
 def calculate_time_weight(shape_length, speed_limit, default_speed=30):
   """
@@ -60,109 +52,6 @@ def load_data(road_segments_file, intersections_file):
     intersections = pd.read_csv(intersections_file)
     return road_segments, intersections
 
-def chinese_postman_problem(road_segments):
-  """
-  Solve the Chinese Postman Problem to find the shortest route covering all edges.
-  Returns the total time (seconds) and route.
-  """
-  # Build undirected graph with NetworkX
-  G = nx.Graph()
-  for _, row in road_segments.iterrows():
-    from_node = int(row["FROMNODE"])
-    to_node = int(row["TONODE"])
-    weight = calculate_time_weight(row["Shape_Length"], row["SPEEDLIMIT"])
-    G.add_edge(from_node, to_node, weight=weight)
-
-  # Check if Eulerian
-  odd_nodes = [node for node, degree in G.degree() if degree % 2 != 0]
-  if not odd_nodes:
-    # Fully Eulerian, find circuit
-    route = list(nx.eulerian_circuit(G))
-  else:
-    # Add edges to make Eulerian
-    G_euler = nx.Graph(G)
-    odd_pairs = nx.min_weight_matching(G.subgraph(odd_nodes))
-    for u, v in odd_pairs:
-      weight = nx.shortest_path_length(G, u, v, weight="weight")
-      G_euler.add_edge(u, v, weight=weight)
-    route = list(nx.eulerian_circuit(G_euler))
-
-  # Calculate total time
-  total_time = sum(G[u][v]["weight"] if (u, v) in G.edges else G[v][u]["weight"] for u, v in route)
-  return route, total_time
-
-def kruskal_mst_from_gpu(edges, nodes, start, end):
-  mst = kruskal_mst_gpu(edges, nodes)
-  filtered_mst = [edge for edge in mst if edge[0] == start or edge[1] == end]
-  return filtered_mst if filtered_mst else "No path found between start and end"
-
-def kruskal_mst_cpu(edges, nodes):
-    """
-    Kruskal's MST using CPU-based sorting with NumPy.
-    """
-    edges_np = np.array(edges)
-    if edges_np.size == 0:
-        return []
-    weights = edges_np[:, 0].astype(np.float64)
-    sorted_indices = np.argsort(weights)
-    sorted_edges = edges_np[sorted_indices]
-    uf = UnionFind(nodes)
-    mst = []
-    for edge in sorted_edges:
-        weight, u, v = edge
-        if uf.find(u) != uf.find(v):
-            uf.union(u, v)
-            mst.append((u, v, weight))
-    return mst
-
-def prim_mst(graph):
-    """
-    Prim's MST algorithm (CPU-based).
-    """
-    start_node = next(iter(graph))
-    min_heap = [(0, start_node, None)]
-    visited = set()
-    mst = []
-    while min_heap:
-        weight, node, parent = heapq.heappop(min_heap)
-        if node in visited:
-            continue
-        visited.add(node)
-        if parent is not None:
-            mst.append((parent, node, weight))
-        for neighbor_weight, neighbor in graph[node]:
-            if neighbor not in visited:
-                heapq.heappush(min_heap, (neighbor_weight, neighbor, node))
-    return mst
-
-def boruvka_mst(graph, edges):
-    """
-    Borůvka’s MST algorithm (CPU-based).
-    """
-    components = {node: node for node in graph}
-    num_components = len(graph)
-    mst = []
-    while num_components > 1:
-        cheapest = {}
-        for weight, u, v in edges:
-            root_u = components[u]
-            root_v = components[v]
-            if root_u != root_v:
-                if (root_u not in cheapest) or (cheapest[root_u][2] > weight):
-                    cheapest[root_u] = (u, v, weight)
-                if (root_v not in cheapest) or (cheapest[root_v][2] > weight):
-                    cheapest[root_v] = (u, v, weight)
-        for u, v, weight in cheapest.values():
-            root_u = components[u]
-            root_v = components[v]
-            if root_u != root_v:
-                mst.append((u, v, weight))
-                for node in components:
-                    if components[node] == root_v:
-                        components[node] = root_u
-                num_components -= 1
-    return mst
-
 def save_to_csv(mst, filename):
     """
     Save the MST result to a CSV file.
@@ -171,10 +60,10 @@ def save_to_csv(mst, filename):
     df.to_csv(filename, index=False)
 
 if __name__ == "__main__":
-    road_segments_file = "./road_segment.csv"
-    intersections_file = "./intersection.csv"
-    road_segments, intersections = load_data(road_segments_file, intersections_file)
-    # graph, edges = build_graph(road_segments)
+  road_segments_file = "./road_segment.csv"
+  intersections_file = "./intersection.csv"
+  road_segments, intersections = load_data(road_segments_file, intersections_file)
+  # graph, edges = build_graph(road_segments)
 
   start_asset_id = 142196
   end_asset_id = 142195
@@ -210,12 +99,12 @@ if __name__ == "__main__":
   save_to_csv(mst_prim, "./result/prim_mst.csv")
   print("CPU-based Prim's MST:", mst_prim)
 
-    # Kruskal's MST (CPU-based)
-    mst_kruskal_cpu = kruskal_mst_cpu(edges, nodes)
-    save_to_csv(mst_kruskal_cpu, "./result/kruskal_mst_cpu.csv")
-    print("CPU-based Kruskal's MST:", mst_kruskal_cpu)
+  # Kruskal's MST (CPU-based)
+  mst_kruskal_cpu = kruskal_mst_cpu(edges, nodes)
+  save_to_csv(mst_kruskal_cpu, "./result/kruskal_mst_cpu.csv")
+  print("CPU-based Kruskal's MST:", mst_kruskal_cpu)
 
-    # Borůvka's MST (CPU-based)
-    mst_boruvka = boruvka_mst(graph, edges)
-    save_to_csv(mst_boruvka, "./result/boruvka_mst_cpu.csv")
-    print("CPU-based Borůvka’s MST:", mst_boruvka)
+  # Borůvka's MST (CPU-based)
+  mst_boruvka = boruvka_mst(graph, edges)
+  save_to_csv(mst_boruvka, "./result/boruvka_mst_cpu.csv")
+  print("CPU-based Borůvka’s MST:", mst_boruvka)
