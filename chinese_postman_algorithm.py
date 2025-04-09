@@ -47,8 +47,7 @@ def build_graph(road_segments):
     graph[to_node].append((weight, from_node))
     edges.append((weight, from_node, to_node))
 
-    return graph, edges, node_mapping  # Return node mapping
-
+  return graph, edges, node_mapping  # Return node mapping
 def load_data(road_segments_file, intersections_file):
     """
     Load CSV data using pandas.
