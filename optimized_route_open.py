@@ -1,5 +1,6 @@
 import pandas as pd
 import heapq
+from union_find import UnionFind  # Assuming you have a UnionFind implementation
 
 # Load CSV files
 def load_data(road_segments_file, intersections_file):
@@ -28,30 +29,6 @@ def build_graph(road_segments):
     edges.append((weight, from_node, to_node))
 
   return graph, edges
-
-# Kruskal's Algorithm (Union-Find)
-class UnionFind:
-  def __init__(self, nodes):
-    self.parent = {node: node for node in nodes}
-    self.rank = {node: 0 for node in nodes}
-
-  def find(self, node):
-    if self.parent[node] != node:
-      self.parent[node] = self.find(self.parent[node])  # Path compression
-    return self.parent[node]
-
-  def union(self, u, v):
-    root_u = self.find(u)
-    root_v = self.find(v)
-
-    if root_u != root_v:
-      if self.rank[root_u] > self.rank[root_v]:
-        self.parent[root_v] = root_u
-      elif self.rank[root_u] < self.rank[root_v]:
-        self.parent[root_u] = root_v
-      else:
-        self.parent[root_v] = root_u
-        self.rank[root_u] += 1
 
 def kruskal_mst(edges, nodes):
   edges.sort()  # Sort by weight
@@ -144,9 +121,16 @@ def boruvka_mst_from(graph, edges, start, end):
   filtered_mst = [edge for edge in mst if edge[0] == start or edge[1] == end]
   return filtered_mst if filtered_mst else "No path found between start and end"
 
+def save_to_csv(mst, filename):
+  """
+  Save the MST result to a CSV file.
+  """
+  df = pd.DataFrame(mst, columns=['FromNode', 'ToNode', 'Weight'])
+  df.to_csv(filename, index=False)
+
 # Main Execution
-road_segments_file = "road_segments.csv"
-intersections_file = "intersections.csv"
+road_segments_file = "road_segment.csv"
+intersections_file = "intersection.csv"
 
 road_segments, intersections = load_data(road_segments_file, intersections_file)
 graph, edges = build_graph(road_segments)
@@ -156,19 +140,21 @@ nodes = set(graph.keys())
 start_asset_id = 142196  # Change this to your desired start
 end_asset_id = 142195  # Change this to your desired end
 
-kruskal_result = kruskal_mst(edges, nodes)
-kruskal_result_from = kruskal_mst_from(edges, nodes, start_asset_id, end_asset_id)
 
 prim_result = prim_mst(graph)
 prim_result_from = prim_mst_from(graph, start_asset_id, end_asset_id)
 
 boruvka_result = boruvka_mst(graph, edges)
 boruvka_result_from = boruvka_mst_from(graph, edges, start_asset_id, end_asset_id)
+#
+# kruskal_result = kruskal_mst(edges, nodes)
+# kruskal_result_from = kruskal_mst_from(edges, nodes, start_asset_id, end_asset_id)
 
-# Print Results
-print("Kruskal's MST:", kruskal_result)
-print("Kruskal's MST (from start to end):", kruskal_result_from)
 print("Prim's MST:", prim_result)
 print("Prim's MST (from start to end):", prim_result_from)
 print("Borůvka’s MST:", boruvka_result)
 print("Borůvka’s MST (from start to end):", boruvka_result_from)
+#
+# # Print Results
+# print("Kruskal's MST:", kruskal_result)
+# print("Kruskal's MST (from start to end):", kruskal_result_from)
