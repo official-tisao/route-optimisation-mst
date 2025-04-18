@@ -3,16 +3,18 @@ import networkx as nx
 
 def calculate_time_weight(shape_length, speed_limit, default_speed=30):
   """
-  Calculate edge weight as time (seconds) based on Shape_Length (meters) and SPEEDLIMIT (km/h).
-  If speed_limit is NaN, use default_speed (km/h).
+  Calculate time (in seconds) for a road segment based on shape_length (in meters)
+  and speed_limit (in km/h). If speed is missing or exceeds 30 km/h, use default 30 km/h.
   """
-  if(pd.notna(speed_limit) and speed_limit > 0):
+  if pd.notna(speed_limit) and speed_limit > 0 and speed_limit <= 30:
     speed = speed_limit
   else:
     speed = default_speed
-  speed_mps = speed * (5 / 18)  # Convert km/h to m/s
-  print (f"Speed: {speed} km/h, Shape_Length: {shape_length}, speed_mps: {speed_mps} m")
-  return (shape_length * 18) / (5 * speed)  # Time in seconds
+
+  speed_mps = (speed * 1000) / 3600  # Convert km/h to m/s
+  time_seconds = shape_length / speed_mps
+  return time_seconds
+
 
 def build_graph(road_segments):
   graph = {}
