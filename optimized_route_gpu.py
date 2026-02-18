@@ -78,12 +78,18 @@ def boruvka_mst_gpu(graph, edges):
 
 def calculate_time_weight(shape_length, speed_limit, default_speed=30):
   """
-  Calculate edge weight as time (seconds) based on Shape_Length (meters) and SPEEDLIMIT (km/h).
-  If speed_limit is NaN, use default_speed (km/h).
+  Calculate time (in seconds) for a road segment based on shape_length (in meters)
+  and speed_limit (in km/h). If speed is missing or exceeds 30 km/h, use default 30 km/h.
   """
-  speed = speed_limit if pd.notna(speed_limit) else default_speed  # Default to 30 km/h
-  speed_mps = speed * (5 / 18)  # Convert km/h to m/s
-  return (shape_length * 18) / (5 * speed)  # Time in seconds
+  if pd.notna(speed_limit) and speed_limit > 0 and speed_limit <= 30:
+    speed = speed_limit
+  else:
+    speed = default_speed
+
+  speed_mps = (speed * 1000) / 3600  # Convert km/h to m/s
+  time_seconds = shape_length / speed_mps
+  return time_seconds
+
 
 def build_graph(road_segments):
   graph = {}
