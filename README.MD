@@ -64,6 +64,7 @@ to help save snow plowing cost for Ontario City of Sudbury.
 
 This project implements three Minimum Spanning Tree (MST) algorithms:
 
+- **Chinese Postman problem's Algorithm**
 - **Kruskal's Algorithm**
 - **Prim's Algorithm**
 - **Borůvka’s Algorithm**
@@ -86,6 +87,8 @@ It loads road network data from **CSV files** (`road_segments.csv`, `intersectio
 
 | Algorithm | Method | Finds Full MST? | Finds MST for Specific Path? |
 |-----------|--------|----------------|------------------------------|
+
+| **Chinese Postman problem's Algorithm** | `chinese_postman(start, end)` | ✅ Yes  | ✅ Yes |
 | **Kruskal** | `kruskal_mst()` | ✅ Yes | ❌ No |
 | **Kruskal** | `kruskal_mst_from(start, end)` | ❌ No | ✅ Yes |
 | **Prim** | `prim_mst()` | ✅ Yes | ❌ No |
